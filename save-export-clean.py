@@ -16,14 +16,16 @@ import os
 import collections
 
 def python_export_clean(img, drawable) :
+    chooser = gtk.FileChooserDialog(title=None,
+                                    action=gtk.FILE_CHOOSER_ACTION_SAVE,
+                                    buttons=(gtk.STOCK_CANCEL,
+                                             gtk.RESPONSE_CANCEL,
+                                             gtk.STOCK_OPEN,
+                                             gtk.RESPONSE_OK))
+
     filename = img.filename
+
     if not filename :
-        chooser = gtk.FileChooserDialog(title=None,
-                                        action=gtk.FILE_CHOOSER_ACTION_SAVE,
-                                        buttons=(gtk.STOCK_CANCEL,
-                                                 gtk.RESPONSE_CANCEL,
-                                                 gtk.STOCK_OPEN,
-                                                 gtk.RESPONSE_OK))
         # Might want to set a current folder:
         save_dir = choose_likely_save_dir()
         if save_dir :
@@ -33,14 +35,18 @@ def python_export_clean(img, drawable) :
         # and maybe remove the stupid fstab shortcuts GTK adds for us.
         #chooser.add_shortcut_folder(folder)
         #chooser.remove_shortcut_folder(folder)
+    else :
+        chooser.set_filename(filename)
 
-        response = chooser.run()
-        if response != gtk.RESPONSE_OK:
-            return
+    chooser.set_do_overwrite_confirmation(True)
 
-        filename = chooser.get_filename()
-        img.filename = filename
-        chooser.destroy()
+    response = chooser.run()
+    if response != gtk.RESPONSE_OK:
+        return
+
+    filename = chooser.get_filename()
+    img.filename = filename
+    chooser.destroy()
 
     pdb.gimp_file_save(img, drawable, filename, filename)
     pdb.gimp_image_clean_all(img)
@@ -63,7 +69,7 @@ register(
         "Akkana Peck",
         "Akkana Peck",
         "2012",
-        "Save/Export clean",
+        "Save/Export As + clean...",
         "*",
         [
             (PF_IMAGE, "image", "Input image", None),
