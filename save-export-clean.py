@@ -14,6 +14,7 @@ from gimpfu import *
 import gtk
 import os
 import collections
+import re
 
 def python_export_clean(img, drawable) :
     chooser = gtk.FileChooserDialog(title=None,
@@ -36,7 +37,21 @@ def python_export_clean(img, drawable) :
         #chooser.add_shortcut_folder(folder)
         #chooser.remove_shortcut_folder(folder)
     else :
-        chooser.set_filename(filename)
+        # Create filenames for edited files the way I fo it manually:
+        # IMG.JPG => IMB-a.JPG
+        # IMG-a.JPG => IMG-b.JPG
+        # IMG-a1.JPG => IMG-a2.JPG
+
+        m = re.match(r"((.*-.*)(.)|(.*))(\.\w+)", os.path.basename(filename))
+        if m :
+            chooser.set_current_folder(os.path.dirname(filename))
+            if m.group(3) :
+                filename = m.group(2) + chr(ord(m.group(3)) + 1) + m.group(5)
+            else :
+                filename = m.group(4) + "-a" + m.group(5)
+            chooser.set_current_name(filename)
+        else :
+            chooser.set_filename(filename)
 
     chooser.set_do_overwrite_confirmation(True)
 
