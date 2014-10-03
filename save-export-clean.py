@@ -20,7 +20,7 @@ def python_export_clean(img, drawable) :
                                     action=gtk.FILE_CHOOSER_ACTION_SAVE,
                                     buttons=(gtk.STOCK_CANCEL,
                                              gtk.RESPONSE_CANCEL,
-                                             gtk.STOCK_OPEN,
+                                             gtk.STOCK_SAVE_AS,
                                              gtk.RESPONSE_OK))
 
     filename = img.filename
