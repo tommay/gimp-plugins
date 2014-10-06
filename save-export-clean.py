@@ -42,7 +42,7 @@ def python_export_clean(img, drawable) :
         # IMG-a.JPG => IMG-b.JPG
         # IMG-a1.JPG => IMG-a2.JPG
 
-        m = re.match(r"((.*-.*)(.)|(.*))(\.\w+)", os.path.basename(filename))
+        m = re.match(r"((.*-\w*)(.)|(.*))(\.\w+)", os.path.basename(filename))
         if m :
             chooser.set_current_folder(os.path.dirname(filename))
             if m.group(3) :
