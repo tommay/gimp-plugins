@@ -19,10 +19,10 @@ import re
 def python_export_clean(img, drawable) :
     chooser = gtk.FileChooserDialog(title=None,
                                     action=gtk.FILE_CHOOSER_ACTION_SAVE,
-                                    buttons=(gtk.STOCK_CANCEL,
-                                             gtk.RESPONSE_CANCEL,
-                                             gtk.STOCK_SAVE_AS,
-                                             gtk.RESPONSE_OK))
+                                    buttons=(gtk.STOCK_SAVE_AS,
+                                             gtk.RESPONSE_OK,
+                                             gtk.STOCK_CANCEL,
+                                             gtk.RESPONSE_CANCEL))
 
     filename = img.filename
 
